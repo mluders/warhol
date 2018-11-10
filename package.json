@@ -1,0 +1,17 @@
+{
+  "name": "warhol",
+  "main": "src/index.html",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "./nwjs.app/Contents/MacOS/nwjs .",
+    "debug": "./nwjs_dev.app/Contents/MacOS/nwjs .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
