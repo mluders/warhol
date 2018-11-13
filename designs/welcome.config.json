@@ -1,0 +1,9 @@
+{
+    "textLayers": {
+        "text": {
+            "index": 3,
+            "case": "upper",
+            "maxLength": 12
+        }
+    }
+}
