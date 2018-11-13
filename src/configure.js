@@ -20,7 +20,6 @@ function setTextLayer(key, config, text, animData) {
   if (text.length > config[key].maxLength) {
     throw Error(`${text} exceeds max length of ${config[key].maxLength}`)
   }
-
   // Process text
   text = changeTextCase(text, config[key].case);
 
