@@ -4,6 +4,7 @@ if (process.cwd().split('/').pop() !== 'warhol') {
 
 const File = require('./file');
 const Configure = require('./configure');
+const Render = require('./render');
 const express = require('express');
 const app = express();
 const port = 8080;
@@ -22,6 +23,7 @@ app.get('/:designName', function (req, res) {
 
   try {
     Configure.setLayers(req.query, config, animData);
+    Render.renderAnimationData(animData);
     res.send(animData);
   }
   catch(err) {
