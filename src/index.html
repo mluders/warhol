@@ -6,5 +6,43 @@
 <body>
   <h5>Hello World!</h5>
 </body>
+<!--<script src="../lib/lottie.js" type="text/javascript"></script>
+<script>
+  function createCanvas(w, h) {
+    let div = document.createElement("div");
+    div.setAttribute("class", "anim-div");
+
+    let cv = document.createElement("canvas");
+    cv.setAttribute("class", "anim-canvas");
+    cv.setAttribute("width", w);
+    cv.setAttribute("height", h);
+    div.appendChild(cv);
+
+    document.body.appendChild(div);
+    return cv;
+  }
+
+  function createAnimation(cv_ctx) {
+    let anim = lottie.loadAnimation({
+      renderer: "canvas",
+      loop: false,
+      autoplay: false,
+      rendererSettings: {
+        context: cv_ctx,
+        scaleMode: "noScale",
+        clearCanvas: true
+      },
+      path: "../designs/confetti.json"
+    });
+    return anim;
+  }
+
+  const helloCanvas = createCanvas(100, 50);
+  const helloCanvasCtx = helloCanvas.getContext("2d");
+  const helloAnim = createAnimation(helloCanvasCtx);
+  helloAnim.addEventListener("DOMLoaded", function() {
+    helloAnim.play();
+  });
+</script>-->
 <script src="server.js" type="text/javascript"></script>
 </html>
