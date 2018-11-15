@@ -14,6 +14,8 @@ using v8::Object;
 using v8::String;
 using v8::Boolean;
 using v8::Value;
+using v8::Function;
+using v8::Persistent;
 
 gifski *g;
 GifskiSettings settings;
@@ -93,8 +95,15 @@ void add_frame(const FunctionCallbackInfo<Value>& args) {
 void end_adding_frames(const FunctionCallbackInfo<Value>& args) {
   gifski_end_adding_frames(g);
   pthread_join(writerThread, NULL);
-  printf("Gif was rendered successfully\n");
+  //printf("Gif was rendered successfully\n");
   reset_state();
+
+  v8::Persistent<v8::Function> r_call;
+  Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[0]);
+  const unsigned argc = 1;
+  v8::Local<v8::Value> argv[argc] = { v8::String::NewFromUtf8(isolate, "Render complete") };
+  func->Call(v8::Null(isolate), argc, argv);
 }
 
 void Initialize(Local<Object> exports) {

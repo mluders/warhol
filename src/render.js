@@ -43,7 +43,9 @@ function renderAnimationData(animData) {
       const arr = helloCanvasCtx.getImageData(0, 0, helloCanvas.width, helloCanvas.height).data;
       gifster.add_frame(arr);
     }
-    gifster.end_adding_frames();
+    gifster.end_adding_frames(function(message) {
+      console.log(message);
+    });
   });
 }
 
