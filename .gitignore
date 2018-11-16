@@ -1,4 +1,7 @@
+.DS_Store
+.vscode
 node_modules
 *.app
-src/gifster/build
 *.gif
+src/gifster/build
+libgifski.a

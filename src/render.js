@@ -1,5 +1,11 @@
 const lottie = require('../lib/lottie');
 const gifster = require('./gifster/build/Release/gifster');
+const uuidv4 = require('uuid/v4');
+const outDir = '../out';
+
+function generateOutputPath(ext='gif') {
+  return outDir + '/' + uuidv4() + '.' + ext;
+}
 
 function createCanvas(w, h) {
   let div = document.createElement("div");
@@ -15,36 +21,38 @@ function createCanvas(w, h) {
   return cv;
 }
 
-function createAnimation(cv_ctx) {
+function createAnimation(animData, ctx) {
   let anim = lottie.loadAnimation({
-    renderer: "canvas",
+    renderer: 'canvas',
     loop: false,
     autoplay: false,
     rendererSettings: {
-      context: cv_ctx,
-      scaleMode: "noScale",
+      context: ctx,
+      scaleMode: 'noScale',
       clearCanvas: true
     },
-    path: "../designs/welcome.json"
+    animationData: animData
   });
+  
   return anim;
 }
 
-function renderAnimationData(animData) {
-  const helloCanvas = createCanvas(300, 150);
-  const helloCanvasCtx = helloCanvas.getContext("2d");
-  const helloAnim = createAnimation(helloCanvasCtx);
+function renderAnimationData(animData, onComplete) {
+  const canvas = createCanvas(300, 150);
+  const ctx = canvas.getContext("2d");
+  const anim = createAnimation(animData, ctx);
+  const outPath = generateOutputPath();
 
-  helloAnim.addEventListener("DOMLoaded", function() {
-    gifster.create_gif(helloCanvas.width, helloCanvas.height, 100, true);
+  anim.addEventListener("DOMLoaded", function() {
+    gifster.create_gif(canvas.width, canvas.height, 100, true);
 
-    for (let i=0; i<150; i++) {
-      helloAnim.goToAndStop(i, true);
-      const arr = helloCanvasCtx.getImageData(0, 0, helloCanvas.width, helloCanvas.height).data;
-      gifster.add_frame(arr);
+    for (let i=0; i<anim.totalFrames; i++) {
+      anim.goToAndStop(i, true);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      gifster.add_frame(data);
     }
-    gifster.end_adding_frames(function(message) {
-      console.log(message);
+    gifster.end_adding_frames(function(err) {
+      onComplete(outPath);
     });
   });
 }
