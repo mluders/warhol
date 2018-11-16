@@ -5,7 +5,9 @@
   "scripts": {
     "start": "./nwjs_dev.app/Contents/MacOS/nwjs .",
     "production": "./nwjs.app/Contents/MacOS/nwjs .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd addon && node-gyp rebuild",
+    "clean": "cd addon && node-gyp clean"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "nan": "^2.11.1",
+    "node-addon-api": "^1.6.1",
     "uuid": "^3.3.2"
   }
 }

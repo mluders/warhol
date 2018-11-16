@@ -3,5 +3,5 @@
 node_modules
 *.app
 *.gif
-src/gifster/build
+build
 libgifski.a

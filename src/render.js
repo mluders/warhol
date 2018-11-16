@@ -1,5 +1,6 @@
 const lottie = require('../lib/lottie');
-const gifster = require('./gifster/build/Release/gifster');
+const gifster = require('./gifster/build/Release/gifster'); // Delete me
+const addon = require('../addon/build/Release/addon');
 const uuidv4 = require('uuid/v4');
 const outDir = '../out';
 
@@ -38,7 +39,9 @@ function createAnimation(animData, ctx) {
 }
 
 function renderAnimationData(animData, onComplete) {
-  const canvas = createCanvas(300, 150);
+  const gifWrapper = new addon.GifWrapper(100, 50, 25, true, "/home/hello.gif");
+  gifWrapper.printSettings();
+  /*const canvas = createCanvas(300, 150);
   const ctx = canvas.getContext("2d");
   const anim = createAnimation(animData, ctx);
   const outPath = generateOutputPath();
@@ -54,7 +57,8 @@ function renderAnimationData(animData, onComplete) {
     gifster.end_adding_frames(function(err) {
       onComplete(outPath);
     });
-  });
+  });*/
+
 }
 
 exports.renderAnimationData = renderAnimationData;
