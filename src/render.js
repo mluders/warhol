@@ -39,25 +39,21 @@ function createAnimation(animData, ctx) {
 }
 
 function renderAnimationData(animData, onComplete) {
-  const gifWrapper = new addon.GifWrapper(100, 50, 25, true, "/home/hello.gif");
-  gifWrapper.printSettings();
-  /*const canvas = createCanvas(300, 150);
+  const canvas = createCanvas(300, 150);
   const ctx = canvas.getContext("2d");
   const anim = createAnimation(animData, ctx);
   const outPath = generateOutputPath();
 
   anim.addEventListener("DOMLoaded", function() {
-    gifster.create_gif(canvas.width, canvas.height, 100, true);
+    const gifWrapper = new addon.GifWrapper(canvas.width, canvas.height, 100, true, "/Volumes/Vault/Projects/warhol/hello.gif");
 
     for (let i=0; i<anim.totalFrames; i++) {
       anim.goToAndStop(i, true);
       const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      gifster.add_frame(data);
+      gifWrapper.addFrame(data, 10);
     }
-    gifster.end_adding_frames(function(err) {
-      onComplete(outPath);
-    });
-  });*/
+    gifWrapper.render();
+  });
 
 }
 

@@ -1,4 +1,8 @@
 #include "gifwrapper.h"
+#include <napi.h>
+#include <node.h>
+#include <node_buffer.h>
+
 
 Napi::FunctionReference GifWrapper::constructor;
 
@@ -7,7 +11,8 @@ Napi::Object GifWrapper::Init(Napi::Env env, Napi::Object exports) {
 
   Napi::Function func = DefineClass(env, "GifWrapper", {
     InstanceMethod("printSettings", &GifWrapper::printSettings),
-    InstanceMethod("printSettingsVoid", &GifWrapper::printSettings),
+    InstanceMethod("addFrame", &GifWrapper::addFrame),
+    InstanceMethod("render", &GifWrapper::render),
   });
 
   constructor = Napi::Persistent(func);
@@ -32,18 +37,20 @@ GifWrapper::GifWrapper(const Napi::CallbackInfo& info) : Napi::ObjectWrap<GifWra
   Napi::Boolean fast = info[3].As<Napi::Boolean>();
   Napi::String outPath = info[4].As<Napi::String>();
 
-  
   this->_gifBuilder = new GifBuilder(width, height, quality, fast, outPath);
 }
 
-Napi::Value GifWrapper::printSettings(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  Napi::EscapableHandleScope scope(env);
-
-  int err = this->_gifBuilder->printSettings();
-  return scope.Escape(Napi::Number::New(env, err));
+void GifWrapper::printSettings(const Napi::CallbackInfo& info) {
+  _gifBuilder->printSettings();
 }
 
-void GifWrapper::printSettingsVoid() {
-  this->_gifBuilder->printSettings();
+void GifWrapper::addFrame(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  unsigned char* pixels = Napi::Buffer<unsigned char>(env, info[0]).Data();
+  Napi::Number delay = info[1].As<Napi::Number>(); 
+  _gifBuilder->addFrame(pixels, delay);
+}
+
+void GifWrapper::render(const Napi::CallbackInfo& info) {
+  _gifBuilder->render();
 }

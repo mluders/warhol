@@ -1,7 +1,7 @@
 #include <node.h>
 #include <node_buffer.h>
 #include <nan.h>
-#include <pthread.h>
+#include <thread.h>
 #include "gifski.h"
 
 namespace demo {
@@ -19,7 +19,7 @@ using v8::Persistent;
 
 gifski *g;
 GifskiSettings settings;
-pthread_t writerThread;
+std::thread writerThread;
 bool hasError = false;
 int currentFrame = 0;
 
@@ -31,7 +31,7 @@ void reset_state() {
 void abort_gif() {
   hasError = true;
   gifski_end_adding_frames(g);
-  pthread_join(writerThread, NULL);
+  writerThread.join();
   reset_state();
   printf("GIF was aborted\n");
 
@@ -77,6 +77,7 @@ void create_gif(const FunctionCallbackInfo<Value>& args) { // width, height, qua
 
   g = gifski_new(&settings);
   pthread_create(&writerThread, NULL, write_frames, NULL);
+  writerThread(&bar::foo, *g);
 }
 
 void add_frame(const FunctionCallbackInfo<Value>& args) {
