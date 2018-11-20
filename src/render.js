@@ -40,7 +40,6 @@ function createAnimation(animData, ctx) {
 }
 
 function renderAnimationData(animData, onComplete) {
-  console.log('directory: ', outDir)
   const canvas = createCanvas(300, 150);
   const ctx = canvas.getContext("2d");
   const anim = createAnimation(animData, ctx);

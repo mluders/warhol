@@ -5,6 +5,7 @@ if (process.cwd().split('/').pop() !== 'warhol') {
 const File = require('./file');
 const Configure = require('./configure');
 const Render = require('./render');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const port = 8080;
@@ -25,7 +26,14 @@ app.get('/:designName', function (req, res) {
     Configure.setLayers(req.query, config, animData);
     Render.renderAnimationData(animData, function(outPath, success) {
       if (success) {
-        res.send(outPath);
+        res.sendFile(outPath, {}, function(err) {
+          if (err) {
+            res.sendStatus(500);
+          }
+          else {
+            fs.unlink(outPath, (err) => { if (err) throw err; });
+          }
+        });
       }
       else {
         res.sendStatus(500);
