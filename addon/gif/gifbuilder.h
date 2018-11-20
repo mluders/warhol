@@ -8,7 +8,7 @@
 
 class GifBuilder {
 public:
-  GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool fast, std::string outPath); //constructor
+  GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool once, bool fast, std::string outPath); //constructor
   void printSettings(); // print the current settings
   void addFrame(unsigned char *pixels, uint32_t delay);
   void writeFrames();

@@ -9,6 +9,11 @@ function generateOutputPath(ext='gif') {
   return outDir + '/' + uuidv4() + '.' + ext;
 }
 
+function calculateDelay(animData) {
+  const frameRate = animData['fr'];
+  return Math.floor(100 / frameRate);
+}
+
 function createCanvas(w, h) {
   let div = document.createElement("div");
   div.setAttribute("class", "anim-div");
@@ -43,16 +48,17 @@ function renderAnimationData(animData, onComplete) {
   const canvas = createCanvas(300, 150);
   const ctx = canvas.getContext("2d");
   const anim = createAnimation(animData, ctx);
+  const delay = calculateDelay(animData);
   const outPath = generateOutputPath();
 
   anim.addEventListener("DOMLoaded", function() {
     const outPath = generateOutputPath();
-    const gifWrapper = new addon.GifWrapper(canvas.width, canvas.height, 100, true, outPath);
+    const gifWrapper = new addon.GifWrapper(canvas.width, canvas.height, 50, false, true, outPath);
 
     for (let i=0; i<anim.totalFrames; i++) {
       anim.goToAndStop(i, true);
       const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      gifWrapper.addFrame(data, 10);
+      gifWrapper.addFrame(data, delay);
     }
 
     gifWrapper.render(function(success) {

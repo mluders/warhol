@@ -1,18 +1,15 @@
 #include "gifbuilder.h"
 
-GifBuilder::GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool fast, std::string outPath) {
+GifBuilder::GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool once, bool fast, std::string outPath) {
   _settings.width = width;
   _settings.height = height;
   _settings.quality = quality;
+  _settings.once = once;
   _settings.fast = fast;
   _outPath = outPath;
 
   printf("Creating a GIF\n");
-  printf("    Width:    %d\n", _settings.width);
-  printf("    Height:   %d\n", _settings.height);
-  printf("    Quality:  %d\n", _settings.quality);
-  printf("    Fast:     %s\n", _settings.fast ? "true" : "false");
-  printf("    Out path: %s\n", _outPath.c_str());
+  printSettings();
 
   _g = gifski_new(&_settings);
   _writerThread = std::thread(&GifBuilder::writeFrames, this);
@@ -23,6 +20,7 @@ void GifBuilder::printSettings()
   printf("Width:    %d\n", _settings.width);
   printf("Height:   %d\n", _settings.height);
   printf("Quality:  %d\n", _settings.quality);
+  printf("Once:     %s\n", _settings.once ? "true" : "false");
   printf("Fast:     %s\n", _settings.fast ? "true" : "false");
   printf("Out path: %s\n", _outPath.c_str());
 }

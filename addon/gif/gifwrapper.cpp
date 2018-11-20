@@ -34,10 +34,11 @@ GifWrapper::GifWrapper(const Napi::CallbackInfo& info) : Napi::ObjectWrap<GifWra
   Napi::Number width = info[0].As<Napi::Number>();
   Napi::Number height = info[1].As<Napi::Number>();
   Napi::Number quality = info[2].As<Napi::Number>();
-  Napi::Boolean fast = info[3].As<Napi::Boolean>();
-  Napi::String outPath = info[4].As<Napi::String>();
+  Napi::Boolean once = info[3].As<Napi::Boolean>();
+  Napi::Boolean fast = info[4].As<Napi::Boolean>();
+  Napi::String outPath = info[5].As<Napi::String>();
 
-  this->_gifBuilder = new GifBuilder(width, height, quality, fast, outPath);
+  this->_gifBuilder = new GifBuilder(width, height, quality, once, fast, outPath);
 }
 
 void GifWrapper::printSettings(const Napi::CallbackInfo& info) {
