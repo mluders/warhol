@@ -23,8 +23,14 @@ app.get('/:designName', function (req, res) {
 
   try {
     Configure.setLayers(req.query, config, animData);
-    Render.renderAnimationData(animData);
-    res.send(animData);
+    Render.renderAnimationData(animData, function(outPath, success) {
+      if (success) {
+        res.send(outPath);
+      }
+      else {
+        res.sendStatus(500);
+      }
+    });
   }
   catch(err) {
     console.log(err);

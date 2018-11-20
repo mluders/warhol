@@ -6,7 +6,6 @@
 #include <thread>
 #include "gifski.h"
 
-
 class GifBuilder {
 public:
   GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool fast, std::string outPath); //constructor
@@ -14,6 +13,7 @@ public:
   void addFrame(unsigned char *pixels, uint32_t delay);
   void writeFrames();
   void render();
+  std::string getOutPath() { return _outPath; }
 private:
   void resetState();
 

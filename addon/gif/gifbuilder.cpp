@@ -1,7 +1,5 @@
 #include "gifbuilder.h"
 
-
-
 GifBuilder::GifBuilder(uint32_t width, uint32_t height, uint32_t quality, bool fast, std::string outPath) {
   _settings.width = width;
   _settings.height = height;

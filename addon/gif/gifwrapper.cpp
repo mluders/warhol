@@ -2,7 +2,7 @@
 #include <napi.h>
 #include <node.h>
 #include <node_buffer.h>
-
+#include <vector>
 
 Napi::FunctionReference GifWrapper::constructor;
 
@@ -53,4 +53,8 @@ void GifWrapper::addFrame(const Napi::CallbackInfo& info) {
 
 void GifWrapper::render(const Napi::CallbackInfo& info) {
   _gifBuilder->render();
+
+  Napi::Env env = info.Env();
+  Napi::Function cb = info[0].As<Napi::Function>();
+  cb.Call(env.Global(), { Napi::Boolean::New(env, true) });
 }
